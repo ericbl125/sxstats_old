@@ -146,6 +146,24 @@ class statsDB:
 			if conn is not None:
 				conn.close()
 
+	def clearDB(self):
+		sql = 'TRUNCATE riders; ' + 'TRUNCATE events; ' + 'TRUNCATE finishes;'
+		conn = None
+		try:
+			params = config()
+			conn = psycopg2.connect(**params)
+			cur = conn.cursor()
+			cur.execute(sql)
+			conn.commit()
+			cur.close()
+
+		except (Exception, psycopg2.DatabaseError) as error:
+			# self.PrintException()
+			print(error)
+			exc_type, exc_obj, exc_tb = sys.exc_info()
+			fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+			print(exc_type, fname, exc_tb.tb_lineno)
+
 	def add_rider(self, name, number, bike, year) :
 		""" Checks for rider in Rider table, adds if not found """
 		# generate RiderGuid
@@ -273,7 +291,7 @@ class statsDB:
 				params = config()
 				conn = psycopg2.connect(**params)
 				cur = conn.cursor()
-				cur.execute(sql, (riderID , eventID, result))
+				cur.execute(sql, (riderID, eventID, result))
 				conn.commit()
 				cur.close()
 				
