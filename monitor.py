@@ -170,7 +170,7 @@ def get_event(event, week, year):
 ######################
 def find_riders(pdf_list, week, year):
     pdf_list = pdf_list.splitlines()
-    
+
     # regex_standings = re.compile(r'\b(?:%s)\b' % '|'.join(standings))
     # filter for start element is a number and length it greater than 15
     regex_list = re.compile('(^[1-9]).{15,}$')
