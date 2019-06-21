@@ -1,7 +1,5 @@
-# Add the location (coordinates or zip code) for each stadium to a local/db doc/table
 
 import requests
-import urllib
 import re
 import itertools
 
@@ -9,6 +7,7 @@ from geopy.geocoders import Nominatim
 from noaa_sdk import noaa
 
 from bs4 import BeautifulSoup
+
 
 #################
 # TODO Convert this into a class. Named 'Stadium_Weather'
@@ -46,8 +45,8 @@ class StadiumWeather:
 
         # (table)
 
-
-    def convert_degrees_to_decimal(self, lat, lon):
+    @staticmethod
+    def convert_degrees_to_decimal(lat, lon):
         """Converts latitude and longitude from degrees to decimal
 
             Just a simple function to convert to decimal which is used on observations
@@ -85,22 +84,17 @@ class StadiumWeather:
         # Use the long and lat by calling noaa.points_forecast
         if lon and lat is None:
             location = str(span.text)
-            # parse into long and lat by separating them with 'N'
+            # TODO parse into long and lat by separating them with 'N'
             print('Is None %s', location)
-        else:
-            coordinates = self.convert_degrees_to_decimal(lat, lon)
-            location = self._geo.reverse(coordinates)
 
-            # observations = n.points_observations(lat, long, start='2017-01-01', end='2018-02-02')
-            # for observation in observations:
-            #    print(observation)
+        coordinates = self.convert_degrees_to_decimal(lat, lon)
+        location = self._geo.reverse(coordinates)
         location_dict = location.raw
         postcode = location_dict['address']['postcode']
 
-        # n = noaa.NOAA()
         observations = self._noaa.get_observations(postcode, 'US', start='2017-01-01', end='2018-02-02')
         for observation in observations:
             print(observation['timestamp'])
             print(observation['precipitationLast3Hours']['value'])
             break
-        print((type(observations)))
+        print(type(observations))
