@@ -11,6 +11,7 @@ from bs4 import BeautifulSoup
 class abstractRaceScrape:
     def __init__(self):
         self.archive_url = 'https://archives.amasupercross.com/'
+        self.soup = self.get_soup('')
 
     def get_soup(self, link, selenium=False):
         url = urllib.parse.urljoin(self.archive_url, link)
@@ -28,7 +29,7 @@ class abstractRaceScrape:
         html = response.text
         return BeautifulSoup(html, 'html.parser')
 
-    def get_races(self, year):
+    def get_events(self, year):
         soup = self.get_soup('')
         races = []
         weeks = soup.find_all('table')[1].find_all("tr")[1:]
