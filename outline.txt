@@ -1,0 +1,74 @@
+Program for monitoring each supercross race
+
+Data to be stored:
+	Race Location,
+	Rider,
+	Rider Result,
+	Temperature,
+	Precipitation,
+	Maybe Timing information for each timing sesion
+
+What do I need to store this information?
+
+Access to the AMASupercross results
+List of Race Locations to search the Wikipedia article of stadiums and raceways to get the coordinates or zip codes for the stadiums/raceways
+Access to the NOAA historical weather data to store and record weather information
+
+Maybe make some edits to it in order to make it a bit simpler in its return values.
+
+
+Activities:
+    New Season:
+        get the location information (coordinates/zip codes) stored for each race of the season
+    Race Day:
+        get the live timing information for each practice session
+        weather forecast for the race
+        whether the stadium is indoor/has roof
+    After Race:
+        load the results into DB
+        Load the actual weather for the stadium
+
+Have a historical load function for loading historical data into DB
+    This is a fringe case use for reloading the db from scratch
+
+
+Back-End Loads
+Yearly Load
+    - Load the ama.arcive page
+    - Open link for each race on the schedule
+    - Store the Stadium name and the race date
+
+Weekly load
+    - Load the ama.archive page.  Select the current week link
+    - Load practice results
+    - Load heat results
+    - Load main result
+
+Yearly Load Functions:
+    get_soup(url, selenium=False) -> soup:
+        - Inputs:
+            url (str): web url to transform to html soup
+            selenium (bool): marker to tell if the url requires selenium to process the html
+        - Descritpion: receives url, transforms it using BeautifulSoup and returns the soup object
+
+    get_location(url) -> stadium name
+        - Input:
+            url (str): web url to transform into soup
+        - Description: receives url, tranforms it and returns the class element 'eventtrackname'
+        Maybe can be reduced to just searching for 'eventrackname' after calling get_soup
+
+    _main_(year=None)
+        - Input:
+            year=None (str): the year to get the events for
+        - Description:
+            Opens archives.amasupercross url
+            gets soup for each event on archive page for the given year, defaults to the current year if none provided
+            searches event_soup for 'eventtrackname' and 'eventdates'
+            Stores the trackname and eventdate into the db
+
+
+Subscriptions service Idea:
+    Send out an update before the race as a reminder to log your picks, as well as providing the top 5 finishers in practice and the wildcard spot
+    and lastly, the predicted list of racers.
+
+
