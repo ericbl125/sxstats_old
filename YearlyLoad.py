@@ -44,7 +44,7 @@ class YearlyLoad(abstractRaceScrape):
             # TODO get coordinates for event from wikipedia
             # TODO get postcode for event
             # TODO store data into DB
-            time.sleep(5)
+            time.sleep(10)
             print(stadium)
 
 
