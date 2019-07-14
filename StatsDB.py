@@ -130,6 +130,7 @@ class StatsDB:
 
     @staticmethod
     def clearDB():
+        print('Truncating Tables')
         sql = 'TRUNCATE riders; ' + 'TRUNCATE events; ' + 'TRUNCATE finishes;'
         conn = None
         try:
