@@ -1,5 +1,0 @@
-# python3 
-# experiment with sets
-# I need to re.compile each riders name from the standings list
-fruit = re.compile(r'\b(?:%s)\b' % '|'.join(fruit_list))
-# try using re.search(r'\bNot Ok\b',strs)  with 'Not Ok' being the string to search for
