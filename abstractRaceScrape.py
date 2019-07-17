@@ -3,10 +3,13 @@ import urllib.parse
 import os
 import re
 
+from sys import platform
 from selenium import webdriver
 from selenium.webdriver.firefox.options import Options
 from bs4 import BeautifulSoup
 
+
+# TODO add a function that checks the operating system and runs the appropriate geckodriver
 
 class abstractRaceScrape:
     def __init__(self):
@@ -20,7 +23,8 @@ class abstractRaceScrape:
             options = Options()
             options.headless = True
 
-            path = os.path.join(os.getcwd(), 'geckodriver')
+            gecko = self.get_geckodriver()
+            path = os.path.join(os.getcwd(), gecko)
             driver = webdriver.Firefox(options=options, executable_path=path)
             driver.get(url)
             return BeautifulSoup(driver.page_source, 'html.parser')
@@ -43,3 +47,12 @@ class abstractRaceScrape:
             races.append(week.find('a', href=yearRegex).string)
 
         return races[:len(races) - 1]
+
+    @staticmethod
+    def get_geckodriver():
+        if platform == "linux" or platform == "linux2":
+            return 'geckodriver_lin'
+        elif platform == "darwin":
+            return 'geckodriver_mac'
+        elif platform == "win32":
+            return 'geckodriver_win.exe'
