@@ -31,4 +31,20 @@ class YearlyLoad(abstractRaceScrape):
 
     def main(self):
         races = self.get_races(self.year)
+        iframe_src = self.soup.find('iframe', id='ifrm').attrs['src']
+        soup_iframe = self.get_soup(iframe_src)
 
+        weeks = soup_iframe.find_all('table')[1].find_all("tr")[1:]
+        for week in weeks:
+            year_regex = re.compile('^' + self.year)
+            stadium = self.get_location(week.find('a', href=year_regex).get('href'))
+
+            # TODO grab date for event
+            # TODO get coordinates for event from wikipedia
+            # TODO get postcode for event
+            # TODO store data into DB
+            time.sleep(5)
+
+
+yl = YearlyLoad('2019')
+yl.main()
