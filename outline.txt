@@ -71,4 +71,7 @@ Subscriptions service Idea:
     Send out an update before the race as a reminder to log your picks, as well as providing the top 5 finishers in practice and the wildcard spot
     and lastly, the predicted list of racers.
 
+Exceptions:
+    Catch exceptions, especially when a race does not return a certain expected value, and when the requests get timed out
+
 
